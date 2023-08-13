@@ -55,8 +55,11 @@ Filtering1 = cat(3,denoisedR,denoisedG,denoisedB);
    denoisedB  = imnoise(noisyB,'gaussian',0,0.005);
    denoisedB  = wiener2(denoisedB ,[15 15]);
 Filtering2 = cat(3,denoisedR,denoisedG,denoisedB);
+
+% Saliency estimation
 Saliency1=(Filtering1-double(Filtering2)).^2;
 d1=double(firstFrame)-Filtering1;
+
 % for 2nd image
 [noisyR,noisyG,noisyB] = imsplit(averageFrame);
 Laplacian=[0 1 0; 1 -4 1; 0 1 0];
@@ -64,6 +67,7 @@ denoisedR = imfilter(double(noisyR),Laplacian,'same');
 denoisedG = imfilter(double(noisyG),Laplacian,'same');
 denoisedB = imfilter(double(noisyB),Laplacian,'same');
 b2 = cat(3,denoisedR,denoisedG,denoisedB);
+
 % Apply winer filter filter
 [noisyR,noisyG,noisyB] = imsplit(averageFrame);
        denoisedR = imnoise(noisyR,'gaussian',0,0.005);
@@ -73,11 +77,15 @@ b2 = cat(3,denoisedR,denoisedG,denoisedB);
    denoisedB  = imnoise(noisyB,'gaussian',0,0.005);
    denoisedB  = wiener2(denoisedB ,[15 15]);
 Image2 = cat(3,denoisedR,denoisedG,denoisedB);
+
+% Saliency estimation
 Saliency2=(b2-double(Image2)).^2;
 d2=double(averageFrame)-b2;
 
+% Weights Normalization
 weight1=Saliency1./(Saliency1+Saliency2);
 
+% Weights Normalization
 weight2=Saliency2./(Saliency1+Saliency2);
 
 Finalimag1=double(weight1).*double(d1)+double(weight2).*double(d2);
@@ -88,7 +96,7 @@ Fusedframe=double(Finalimag1)+finalimage2;
   
     Filenames = fullfile(folder, [videoFiles(i).name(1:end-4), '.jpg']);
    % imwrite(firstFrame, firstFrameFileName);
-    imwrite(averageFrame, Filenames);
+    imwrite(Fusedframe, Filenames);
     
     fprintf('First frame and average frame processsed for saliency-based fusion: %s\n', videoFiles(i).name);
 end
