@@ -1,6 +1,6 @@
 
 ## [Saliency-based Video Summarization for Face Anti-spoofing]
-#### Authors: Usman Muhammad, Md Ziaul Hoque, Wang Weiqiang and Mourad Oussalah
+#### Authors: Usman Muhammad, Mourad Oussalah and Jorma Laaksonen
 
 #### Journal: [Pattern Recognition Letters](https://www.sciencedirect.com/journal/pattern-recognition-letters)
 ##
